@@ -14,6 +14,15 @@ namespace Secure_API.Mappings
             //ReverseMap() is used in case if we want to map DTO to the Domain Model
             CreateMap<Secure_API.Models.Domain.Request, RequestDTO>()
                 .ReverseMap();
+
+            CreateMap<Secure_API.Models.Domain.Request, GetRequestDTO>()
+                .ReverseMap();
+
+            CreateMap<Secure_API.Models.Domain.Visitor, VisitorDTO>()
+                .ReverseMap();
+
+            CreateMap<Secure_API.Models.Domain.User, GetUserDTO>()
+                .ReverseMap();
         }
     }
 }

@@ -21,13 +21,29 @@ namespace Secure_API.Repositories
         {
             try
             {
-                return await context.Requests.ToListAsync();
+              
+                return await context.Requests.Include("Visitors").Include("Users").ToListAsync();
             }
             catch (Exception)
             {
                 throw;
             }
         }
+        #endregion
+
+        #region Search
+        public async Task<IEnumerable<Request>> SearchVisitor(string data)
+        {
+            var id = data;
+            var Empquery = from x in context.Requests.Include("Visitors").AsQueryable();
+            if(!string.IsNullOrEmpty(data))
+            {
+                Empquery = Empquery.Where(x => x.Name.Contains(data) || x.Email.Contains(data)||x.CompanyName.Contains(data));
+            }
+            return await Empquery.AsNoTracking().ToListAsync();
+            
+        }
+
         #endregion
     }
 }

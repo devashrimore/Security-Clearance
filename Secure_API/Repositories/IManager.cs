@@ -9,6 +9,7 @@ namespace Secure_API.Repositories
     public interface IManager
     {
          Task<IEnumerable<Request>> GetAllRequests();
+         Task<IEnumerable<Request>> SearchVisitor(string data);
          //Task<IEnumerable<Request>> GetApprovedRequests();
          //Task<IEnumerable<Request>> GetRejectedRequests();
 

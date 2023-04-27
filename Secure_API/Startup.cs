@@ -12,7 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Secure_API.Data;
-using Secure_API.Services;
+//using Secure_API.Services;
 using Secure_API.Repositories;
 using System.Text;
 
@@ -34,6 +34,7 @@ namespace Secure_API
             services.AddControllers();
             services.AddDbContext<SecureDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DevConnection")));
             services.AddScoped<IVisitor, VisitorRepository>();
+            services.AddScoped<IManager, ManagerRepository>();
             services.AddAutoMapper(typeof(Startup).Assembly);
             //services.AddAutoMapper(typeof(Program).Assembly);
             services.AddSwaggerGen(c =>
