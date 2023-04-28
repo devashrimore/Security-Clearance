@@ -7,8 +7,8 @@ namespace Secure_API.Models.DTO
 {
     public class RequestDTO
     {
-        public double RequestId {get; set;}
-        public double VisitorId { get; set; }
+        //public double RequestId {get; set;}
+        //public double VisitorId { get; set; }
         public string Address { get; set; }
         public string VisitingTo { get; set; }
         public string Purpose { get; set; }

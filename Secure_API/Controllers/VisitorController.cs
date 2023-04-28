@@ -23,6 +23,7 @@ namespace Secure_API.Controllers
         }
         
         [HttpPost]
+        [Route("SendRequest")]
         public async Task<IActionResult> AddRequest(RequestDTO SendRequest)
         {
             try
