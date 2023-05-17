@@ -22,29 +22,54 @@ namespace Secure_API.Controllers
                 this.mapper = mapper;
         }
         
-        [HttpPost]
-        [Route("SendRequest")]
-        public async Task<IActionResult> AddRequest(RequestDTO SendRequest)
+        #region Search Visitor        
+
+        [HttpGet]
+        [Route("SearchVisitor")]
+
+        //retrive data by Visitor data by name/email/Company
+        public async Task<IActionResult> SearchVisitor(string data)
         {
+            //fetch data
+            var result = await _VisitorRepository.SearchVisitor(data);
             try
             {
-                // //DTO to Model
-                var request = mapper.Map<Request>(SendRequest);
-
-                //Pass Detail to Repository
-                var response = await _VisitorRepository.AddRequest(request);
-
-                //Convert back to DTO
-                var SendRequestDTO = mapper.Map<RequestDTO>(response);
-
-                
-
-                return Ok(SendRequestDTO);
+                if (result == null)
+                {
+                    return NotFound();
+                }
             }
             catch(Exception e)
             {
-                return BadRequest("Error in Controller method AddRequest" + e);
+                Console.WriteLine("Visitor not found");
             }
+            var resultDTO = mapper.Map<List<Models.DTO.VisitorDTO>>(result);
+            return Ok(resultDTO);
+        }
+
+        #endregion
+
+         #region Add Visitor
+        [HttpPost]
+        [Route("AddVisitor")]
+        public async Task<IActionResult> AddVisitor(VisitorDTO visitorDTO)
+        {
+            try
+            {
+                var newvisitor = mapper.Map<Visitor>(visitorDTO);
+                var res= await _VisitorRepository.AddVisitor(newvisitor);
+                if (res != null)
+                {
+                    return Ok("Success");
+
+                }
+                return Ok("Already Exists");
             }
+            catch (Exception e)
+            {
+                return BadRequest("Error in Controller method AddUser" + e);
+            }
+        }
+        #endregion
     }
 }

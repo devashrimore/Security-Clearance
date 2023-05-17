@@ -26,6 +26,9 @@ namespace Secure_API.Mappings
 
             CreateMap<Secure_API.Models.Domain.User, UserDTO>()
                 .ReverseMap();
+
+            CreateMap<Secure_API.Models.Domain.Request, EditRequestDTO>()
+                .ReverseMap();
         }
     }
 }

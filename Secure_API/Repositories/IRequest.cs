@@ -6,13 +6,14 @@ using Secure_API.Models.Domain;
 
 namespace Secure_API.Repositories
 {
-    public interface IManager
+    public interface IRequest
     {
          Task<IEnumerable<Request>> GetAllRequests();
-         Task<IEnumerable<Visitor>> SearchVisitor(string data);
+         Task<Request> AddRequest(Request SendRequest);
          Task<IEnumerable<Request>> GetApprovedRequests();
          Task<IEnumerable<Request>> GetRejectedRequests();
-         Task<User> AddUser(User user);
+    
+         Task<Request> EditRequest(int requestId, Request request);
 
     }
 }

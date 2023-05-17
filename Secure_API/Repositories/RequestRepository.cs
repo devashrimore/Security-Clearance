@@ -9,11 +9,11 @@ using Secure_API.Models.Domain;
 
 namespace Secure_API.Repositories
 {
-    public class ManagerRepository:IManager
+    public class RequestRepository:IRequest
     {
         private readonly SecureDbContext context;
 
-        public ManagerRepository(SecureDbContext context)
+        public RequestRepository(SecureDbContext context)
         {
             this.context = context;
         }
@@ -32,19 +32,22 @@ namespace Secure_API.Repositories
         }
         #endregion
 
-        #region Search
-        public async Task<IEnumerable<Visitor>> SearchVisitor(string data)
+        #region AddRequest
+        public async Task<Request> AddRequest(Request SendRequest)
         {
-            //var id = data;
-            var Empquery = from x in context.Visitors select x;
-           // if(!string.IsNullOrEmpty(data))
-            //{
-                Empquery = Empquery.Where(x => x.Name.Contains(data) || x.Email.StartsWith(data)||x.CompanyName.Contains(data));
-            //}
-            return await Empquery.AsNoTracking().ToListAsync();
-            
+            try
+            {
+               
+               // Request.RequestStatus = "Initiated";
+                await context.AddAsync(SendRequest);
+                await context.SaveChangesAsync();
+                return SendRequest;
+            }
+            catch(Exception)
+            {
+                throw;
+            }
         }
-
         #endregion
     
         #region Get Approved Requests
@@ -75,27 +78,20 @@ namespace Secure_API.Repositories
 
         #endregion
 
-        #region Add New User
-        public async Task<User> AddUser(User user)
-        {
-            try
-            {
-                if (context.Users.Where(u => u.Email == user.Email).FirstOrDefault() != null)
-                {
-                return null;
-                }
-                await context.Users.AddAsync(user);
-                await context.SaveChangesAsync();
-                return user;
-            }
-            catch(Exception)
-            {
-                throw;
 
-            }
+        #region EditRequest
+        public async Task<Request> EditRequest(int requestId, Request request)
+        {
+            var requestDetail = await context.Requests.FirstOrDefaultAsync(x => x.RequestId == requestId);
+            requestDetail.RequestStatus = request.RequestStatus;
+            requestDetail.ActionPerformedBy = request.ActionPerformedBy;
+            await context.SaveChangesAsync();
+            return requestDetail;
+            
         }
         #endregion
     }
 
     
 }
+

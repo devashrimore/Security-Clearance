@@ -16,22 +16,41 @@ namespace Secure_API.Repositories
         {
             this.context = context;
         }
-         #region AddRequest
-        public async Task<Request> AddRequest(Request SendRequest)
+       
+        #region Add New Visitor
+        public async Task<Visitor> AddVisitor(Visitor visitor)
         {
             try
             {
-               
-               // Request.RequestStatus = "Initiated";
-                await context.AddAsync(SendRequest);
+                if (context.Visitors.Where(u => u.Email == visitor.Email).FirstOrDefault() != null)
+                {
+                return null;
+                }
+                await context.Visitors.AddAsync(visitor);
                 await context.SaveChangesAsync();
-                return SendRequest;
+                return visitor;
             }
             catch(Exception)
             {
                 throw;
+
             }
         }
+        #endregion
+
+         #region Search
+        public async Task<IEnumerable<Visitor>> SearchVisitor(string data)
+        {
+            //var id = data;
+            var Empquery = from x in context.Visitors select x;
+           // if(!string.IsNullOrEmpty(data))
+            //{
+                Empquery = Empquery.Where(x => x.Name.Contains(data) || x.Email.StartsWith(data)||x.CompanyName.Contains(data));
+            //}
+            return await Empquery.AsNoTracking().ToListAsync();
+            
+        }
+
         #endregion
 
     }

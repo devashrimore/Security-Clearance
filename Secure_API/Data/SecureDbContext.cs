@@ -10,11 +10,11 @@ namespace Secure_API.Data
     public class SecureDbContext:DbContext
     {
           public SecureDbContext(DbContextOptions<SecureDbContext>options):base(options)
-        {
+            {
 
+            }
+            public DbSet<User> Users { get; set; }
+            public DbSet<Visitor> Visitors { get; set; }
+            public DbSet<Request> Requests { get; set;}
         }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Visitor> Visitors { get; set; }
-        public DbSet<Request> Requests { get; set;}
     }
-}

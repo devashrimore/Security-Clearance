@@ -8,6 +8,7 @@ namespace Secure_API.Repositories
 {
     public interface IVisitor
     {
-     Task<Request> AddRequest(Request SendRequest);
+     Task<Visitor> AddVisitor(Visitor visitor);
+     Task<IEnumerable<Visitor>> SearchVisitor(string data);
     }
 }

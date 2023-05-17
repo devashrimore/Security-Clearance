@@ -34,7 +34,7 @@ namespace Secure_API
             services.AddControllers();
             services.AddDbContext<SecureDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DevConnection")));
             services.AddScoped<IVisitor, VisitorRepository>();
-            services.AddScoped<IManager, ManagerRepository>();
+            services.AddScoped<IRequest, RequestRepository>();
             services.AddScoped<IUser, UserRepository>();
             services.AddAutoMapper(typeof(Startup).Assembly);
             //services.AddAutoMapper(typeof(Program).Assembly);

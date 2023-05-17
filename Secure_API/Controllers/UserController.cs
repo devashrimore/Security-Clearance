@@ -23,6 +23,54 @@ namespace Secure_API.Controllers
                 this.mapper = mapper;
         }
 
-       
+        #region Add User
+        [HttpPost]
+        [Route("AddUser")]
+        public async Task<IActionResult> AddUser(UserDTO userDTO)
+        {
+            try
+            {
+                var employee = mapper.Map<User>(userDTO);
+                var res= await UserRepository.AddUser(employee);
+                if (res != null)
+                {
+                    return Ok("Success");
+
+                }
+                return Ok("Already Exists");
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Error in Controller method AddLoginDetails" + e);
+            }
+        }
+        #endregion
+
+        #region Search User        
+
+        [HttpGet]
+        [Route("SearchUser")]
+
+        //retrive data by User data by name/email/Company/Role
+        public async Task<IActionResult> SearchUser(string data)
+        {
+            //fetch employee
+            var result = await UserRepository.SearchUser(data);
+            try
+            {
+                if (result == null)
+                {
+                    return NotFound();
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("User not found");
+            }
+            var resultDTO = mapper.Map<List<Models.DTO.GetUserDTO>>(result);
+            return Ok(resultDTO);
+        }
+
+        #endregion
     }
 }

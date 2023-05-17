@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,3 +22,4 @@ namespace Secure_API.Models.Domain
         public string Role { get; set; }
     }
 }
+
